@@ -5,7 +5,7 @@ COPY . /app
 WORKDIR /app
 
 # Install dependencies (if any)
-RUN pip install --user -r requirements.txt
+RUN pip install -r requirements.txt
 
 # Train model at build time
 RUN rasa train
