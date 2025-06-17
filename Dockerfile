@@ -1,24 +1,33 @@
 FROM rasa/rasa:3.6.16
 
-# Set environment path to avoid permission issues (use existing Rasa venv)
+# Set environment path to use Rasa’s venv and avoid permission issues
 ENV PATH="/opt/venv/bin:$PATH"
 
-# Set working directory inside the container
+# Use working directory
 WORKDIR /app
 
-# Copy project files
+# Copy all project files
 COPY . /app
 
-# Install required Python packages inside Rasa’s existing venv
+# Switch to root to install Python dependencies
 USER root
+
+# Upgrade pip and install dependencies
 RUN pip install --no-cache-dir --upgrade pip \
  && pip install --no-cache-dir -r requirements.txt
 
-# Train Rasa model during build (optional but slow)
+# Train the Rasa model
 RUN rasa train
 
-# Set back to non-root user for safety
+# (Optional) Add this to silence SQLAlchemy 2.x deprecation warnings
+ENV SQLALCHEMY_WARN_20=0 \
+    SQLALCHEMY_SILENCE_UBER_WARNING=1
+
+# Revert to non-root user for running the app
 USER 1001
 
-# Default command (you can override this in Render or docker-compose)
-CMD ["rasa", "run", "--enable-api", "--cors", "*"]
+# Expose port for Render (optional but good practice)
+EXPOSE 8000
+
+# Start the Rasa server with API enabled and CORS open for all
+CMD ["rasa", "run", "--enable-api", "--cors", "*", "--port", "8000"]
