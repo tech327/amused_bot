@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: rasa-server
+    env: docker
+    plan: free
+    dockerfilePath: Dockerfile
+    envVars:
+      - key: PORT
+        value: 8000
+
+  - type: web
+    name: rasa-actions
+    env: docker
+    plan: free
+    dockerfilePath: actions/Dockerfile
+    envVars:
+      - key: PORT
+        value: 5055
