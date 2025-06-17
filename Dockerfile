@@ -4,14 +4,13 @@ USER root
 
 WORKDIR /app
 
-# Copy everything
 COPY . /app
 
-# Install Python dependencies if needed
+# Install dependencies if needed
+#RUN pip install --no-cache-dir -r requirements.txt
 
-
-# Make sure script is executable
+# Make the script executable
 RUN chmod +x start.sh
 
-# Start both rasa server and action server
-CMD ["./start.sh"]
+# 🔥 THIS IS THE FIX: override the entrypoint
+ENTRYPOINT ["/bin/bash", "./start.sh"]
