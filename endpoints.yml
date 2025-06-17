@@ -1,2 +1,6 @@
 action_endpoint:
   url: "http://action_server:5055/webhook"
+
+models:
+  directory: models
+  model: models/20250617-115429-principal-channel.tar.gz
