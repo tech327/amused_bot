@@ -1,19 +1,12 @@
-# Rasa SDK for custom actions
 FROM rasa/rasa-sdk:3.6.1
 
-# Set working directory
-WORKDIR /app/actions
+WORKDIR /app
 
-# Copy action code into the image
-COPY . /app/actions
+COPY . /app
 
-# Install any extra dependencies (optional)
 USER root
-RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir -r requirements.txt || true
 
-# Expose port used by action server
-EXPOSE 5055
+# Install extra dependencies for MySQL + OpenAI
+RUN pip install --no-cache-dir mysql-connector-python python-dotenv openai dateparser
 
-# Run the action server
-CMD ["start", "--actions", "actions"]
+CMD ["python", "-m", "rasa_sdk", "--port", "5055"]
