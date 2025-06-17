@@ -6,9 +6,11 @@ WORKDIR /app
 
 COPY . /app
 
-# Install dependencies if needed
-#RUN pip install --no-cache-dir -r requirements.txt
+# Copy requirements.txt into the image
+COPY requirements.txt .
 
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 # Make the script executable
 RUN chmod +x start.sh
 
