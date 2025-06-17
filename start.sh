@@ -10,4 +10,4 @@ fi
 rasa run actions --port 5055 &
 
 # Start rasa server
-rasa run --enable-api --cors "*" --port 8000
+rasa run --model models/20250617-115429-principal-channel.tar.gz --enable-api --cors "*" --port 8000
