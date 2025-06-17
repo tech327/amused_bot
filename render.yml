@@ -23,4 +23,29 @@ services:
         # This will be the URL of your rasa-actions service
         value: https://rasa-actions.onrender.com
     # Fixed: Remove the hardcoded actions URL, use environment variable
+    startCommand: services:
+  - type: web
+    name: rasa-actions
+    env: docker
+    plan: free
+    dockerfilePath: actions/Dockerfile
+    envVars:
+      - key: PORT
+        value: 5055
+    # Fixed: Use proper rasa actions command
+    startCommand: rasa run actions --port 5055
+    
+  - type: web
+    name: rasa-server
+    env: docker
+    plan: free
+    dockerfilePath: Dockerfile
+    envVars:
+      - key: PORT
+        value: 8000
+      # Add the actions server URL as environment variable
+      - key: ACTIONS_ENDPOINT
+        # This will be the URL of your rasa-actions service
+        value: https://rasa-actions.onrender.com
+    # Fixed: Remove the hardcoded actions URL, use environment variable
     startCommand: rasa run --enable-api --cors "*" --port 8000 --debug
