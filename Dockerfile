@@ -16,4 +16,4 @@ RUN pip install --no-cache-dir --upgrade pip \
 EXPOSE 8000
 
 # Start Rasa with API and CORS
-CMD ["run", "--enable-api", "--cors", "*", "--port", "8000"]
+CMD ["run", "--enable-api", "--cors", "*", "--port", "8000", "--model", "/app/models/20250617-115429-principal-channel.tar.gz"]
