@@ -12,4 +12,4 @@ COPY . /app
 EXPOSE 8000
 
 # Run Rasa server and actions together
-CMD ["rasa", "run", "--enable-api", "--cors", "*", "--port", "8000", "--actions", "actions"]
+CMD [ "run", "--enable-api", "--cors", "*", "--port", "8000", "--actions", "actions"]
