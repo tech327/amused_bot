@@ -7,7 +7,7 @@ services:
     envVars:
       - key: PORT
         value: 8000
-    startCommand: rasa run --enable-api --cors "*" --port 8000
+    startCommand: rasa run --enable-api --cors "*" --port 8000 --actions http://rasa-actions:5055
 
   - type: web
     name: rasa-actions
