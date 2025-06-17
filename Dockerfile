@@ -19,7 +19,7 @@ RUN pip install --no-cache-dir --upgrade pip \
 # Train the Rasa model
 RUN rasa train
 
-# (Optional) Add this to silence SQLAlchemy 2.x deprecation warnings
+# (Optional) Silence SQLAlchemy 2.x deprecation warnings
 ENV SQLALCHEMY_WARN_20=0 \
     SQLALCHEMY_SILENCE_UBER_WARNING=1
 
@@ -33,5 +33,5 @@ USER 1001
 # Expose port for Render
 EXPOSE 8000
 
-# Start the Rasa server using entrypoint script
+# Use custom entrypoint script to start server
 CMD ["/app/entrypoint.sh"]
