@@ -1,21 +1,19 @@
-# Use the official Rasa image
 FROM rasa/rasa:3.6.16
 
 # Set working directory
 WORKDIR /app
 
-# Copy all project files into the container
+# Copy all project files
 COPY . /app
 
-# Install extra dependencies if needed (comment out if not required)
-# USER root
-# RUN pip install -r requirements.txt
+# (Optional) Install any dependencies for actions.py
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Train the Rasa model
+# Train the model
 RUN rasa train
 
-# Expose port for Render or other services
+# Expose Rasa HTTP API port
 EXPOSE 8000
 
-# Run Rasa server and include actions from actions.py inside container
+# Start Rasa server with actions in the same container
 CMD ["rasa", "run", "--enable-api", "--cors", "*", "--port", "8000", "--actions", "actions"]
