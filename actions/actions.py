@@ -76,35 +76,30 @@ def extract_date_sql_from_query(user_query: str) -> str:
             f"AND YEAR(STR_TO_DATE(date_time, '%d/%m/%Y,%H:%i')) = {next_year} LIMIT 10"
         )
 
+    # Handle specific month names
     month_map = {
-    "january": 1,
-    "february": 2,
-    "march": 3,
-    "april": 4,
-    "may": 5,
-    "june": 6,
-    "july": 7,
-    "august": 8,
-    "september": 9,
-    "october": 10,
-    "november": 11,
-    "december": 12
-}
+        "january": 1,
+        "february": 2,
+        "march": 3,
+        "april": 4,
+        "may": 5,
+        "june": 6,
+        "july": 7,
+        "august": 8,
+        "september": 9,
+        "october": 10,
+        "november": 11,
+        "december": 12
+    }
 
-for month_name, month_num in month_map.items():
-    if month_name in user_query:
-        return (
-            f"{base_sql} MONTH(STR_TO_DATE(date_time, '%d/%m/%Y,%H:%i')) = {month_num} "
-            f"AND YEAR(STR_TO_DATE(date_time, '%d/%m/%Y,%H:%i')) = {today.year} LIMIT 10"
-        )
+    for month_name, month_num in month_map.items():
+        if month_name in user_query:
+            return (
+                f"{base_sql} MONTH(STR_TO_DATE(date_time, '%d/%m/%Y,%H:%i')) = {month_num} "
+                f"AND YEAR(STR_TO_DATE(date_time, '%d/%m/%Y,%H:%i')) = {today.year} LIMIT 10"
+            )
 
-
-
-
-
-
-
-
+    return ""  # default fallback if no match
 # --- GPT SQL FALLBACK ---
 def generate_sql_from_gpt(user_query: str) -> str:
     prompt = f"""
