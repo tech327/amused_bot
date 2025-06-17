@@ -5,7 +5,7 @@ COPY . /app
 WORKDIR /app
 
 # Install dependencies (if any)
-RUN pip install --no-cache-dir --user -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 
 # Train model at build time
