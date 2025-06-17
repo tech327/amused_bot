@@ -1,15 +1,5 @@
 services:
   - type: web
-    name: rasa-actions
-    env: docker
-    plan: free
-    dockerfilePath: actions/Dockerfile
-    envVars:
-      - key: PORT
-        value: 5055
-    startCommand: rasa run actions --port 5055
-
-  - type: web
     name: rasa-server
     env: docker
     plan: free
@@ -19,3 +9,13 @@ services:
         value: 8000
       - key: ACTIONS_ENDPOINT
         value: https://rasa-actions.onrender.com
+
+  - type: web
+    name: rasa-actions
+    env: docker
+    plan: free
+    dockerfilePath: actions/Dockerfile
+    envVars:
+      - key: PORT
+        value: 5055
+    startCommand: rasa run actions --port 5055

@@ -3,7 +3,7 @@ FROM rasa/rasa:3.6.16
 # Set environment path to use Rasa's venv and avoid permission issues
 ENV PATH="/opt/venv/bin:$PATH"
 
-# Use working directory
+# Set working directory
 WORKDIR /app
 
 # Copy all project files
@@ -23,15 +23,15 @@ RUN rasa train
 ENV SQLALCHEMY_WARN_20=0 \
     SQLALCHEMY_SILENCE_UBER_WARNING=1
 
-# Create entrypoint script for dynamic port binding
-RUN echo '#!/bin/bash\nexec rasa run --enable-api --cors "*" --port ${PORT:-8000}' > /app/entrypoint.sh \
-    && chmod +x /app/entrypoint.sh
+# ✅ Create entrypoint script using printf to avoid Windows line endings
+RUN printf '#!/bin/bash\nexec rasa run --enable-api --cors "*" --port ${PORT:-8000}\n' > /app/entrypoint.sh && \
+    chmod +x /app/entrypoint.sh
 
-# Revert to non-root user for running the app
+# Revert to non-root user
 USER 1001
 
 # Expose port for Render
 EXPOSE 8000
 
-# Use custom entrypoint script to start server
-CMD ["/app/entrypoint.sh"]
+# ✅ Use ENTRYPOINT instead of CMD to prevent Render CLI override issue
+ENTRYPOINT ["/app/entrypoint.sh"]
