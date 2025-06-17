@@ -1,0 +1,5 @@
+rasa-sdk==3.6.1
+mysql-connector-python
+python-dotenv
+python-dateparser
+openai
