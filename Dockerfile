@@ -1,19 +1,18 @@
 FROM rasa/rasa:3.6.16
 
-# Set working directory
 WORKDIR /app
 
-# Copy all project files
+# Copy your project files
 COPY . /app
 
-# (Optional) Install any dependencies for actions.py
-RUN pip install --no-cache-dir -r requirements.txt
+# If you don't need custom dependencies, skip pip install
+# RUN pip install --no-cache-dir -r requirements.txt
 
 # Train the model
 RUN rasa train
 
-# Expose Rasa HTTP API port
+# Expose port for Render or local testing
 EXPOSE 8000
 
-# Start Rasa server with actions in the same container
+# Run both Rasa server and custom actions
 CMD ["rasa", "run", "--enable-api", "--cors", "*", "--port", "8000", "--actions", "actions"]
