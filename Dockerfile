@@ -1,15 +1,17 @@
 FROM rasa/rasa:3.6.16
 
+USER root
+
 WORKDIR /app
 
-# Copy all project files
+# Copy everything
 COPY . /app
 
-# (Optional) Install Python dependencies
-# RUN pip install --no-cache-dir -r requirements.txt
+# Install Python dependencies if needed
 
-# Expose port for API access
-EXPOSE 8000
 
-# Run Rasa server and actions together
-CMD [ "run", "--enable-api", "--cors", "*", "--port", "8000", "--actions", "actions"]
+# Make sure script is executable
+RUN chmod +x start.sh
+
+# Start both rasa server and action server
+CMD ["./start.sh"]
