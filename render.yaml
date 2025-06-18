@@ -1,20 +1,9 @@
 services:
   - type: web
-    name: rasa-server
+    name: rasa-bot
     env: docker
-    dockerfilePath: Dockerfile
     plan: free
+    dockerfilePath: Dockerfile
     envVars:
       - key: PORT
         value: 8000
-    startCommand: rasa run --enable-api --cors "*" --port 8000
-
-  - type: web
-    name: rasa-actions
-    env: docker
-    dockerfilePath: actions/Dockerfile
-    plan: free
-    envVars:
-      - key: PORT
-        value: 5055
-    startCommand: rasa run actions
