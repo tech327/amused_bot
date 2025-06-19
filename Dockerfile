@@ -1,18 +1,20 @@
 FROM rasa/rasa:3.6.16
 
-USER root
+# Use Rasa's internal venv
+ENV PATH="/opt/venv/bin:$PATH"
 
 WORKDIR /app
 
 COPY . /app
 
-# Copy requirements.txt into the image
-COPY requirements.txt .
+# Switch to root user to install packages
+USER root
 
-# Install dependencies
+# Install requirements with proper permissions
 RUN pip install --no-cache-dir -r requirements.txt
-# Make the script executable
-RUN chmod +x start.sh
 
-# 🔥 THIS IS THE FIX: override the entrypoint
-ENTRYPOINT ["/bin/bash", "./start.sh"]
+# Switch back to rasa user for security
+USER rasa
+
+# Launch Rasa server
+ENTRYPOINT ["rasa", "run", "--enable-api", "--cors", "*", "--port", "8000"]
